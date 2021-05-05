@@ -7,5 +7,5 @@ npm install
 
 ## Run
 ```bash
-npm start
+set DEBUG=store-api:* & npm start
 ```
