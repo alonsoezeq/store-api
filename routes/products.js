@@ -1,6 +1,7 @@
 "use strict";
 
 var express = require('express');
+const config = require('../config/config');
 const { Sequelize } = require('../models');
 var router = express.Router();
 
@@ -10,7 +11,10 @@ const Op = db.Sequelize.Op;
 
 // Get all products
 router.get('/', (req, res, next) => {
-  product.findAll()
+  product.findAll({
+          offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
+          limit: config.defaultPageItems
+         })
          .then(data => res.json(data))
          .catch(err => res.status(500).send({
            message: err.message || 'Some error occurred while reading object.'
@@ -28,8 +32,9 @@ router.get('/:id', (req, res, next) => {
 
 // Create product
 router.post('/', (req, res, next) => {
-  product.create(req.body)
-         .then(data => res.status(201).json(data))
+  let creator = Array.isArray(req.body) ? product.bulkCreate(req.body) : product.create(req.body);
+
+  creator.then(data => res.status(201).json(data))
          .catch(err => res.status(500).send({
            message: err.message || 'Some error occurred while creating object.'
          }));
