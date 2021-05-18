@@ -1,5 +1,7 @@
+const picture = require("./picture");
+
 module.exports = (sequelize, Sequelize) => {
-  const Product = sequelize.define('Product', {
+  const product = sequelize.define('product', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -39,5 +41,9 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  return Product;
+  product.hasMany(sequelize.models.picture, {
+    foreignKey: 'productId'
+  });
+
+  return product;
 }

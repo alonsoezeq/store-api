@@ -16,6 +16,7 @@ try {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.picture = require('./picture')(sequelize, Sequelize);
 db.product = require('./product')(sequelize, Sequelize);
 
 sequelize.sync({ force: true });
