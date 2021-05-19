@@ -1,4 +1,4 @@
-const picture = require("./picture");
+const picture = require('./picture');
 
 module.exports = (sequelize, Sequelize) => {
   const product = sequelize.define('product', {

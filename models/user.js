@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, Sequelize) => {
   const user = sequelize.define('user', {
     id: {
@@ -21,7 +23,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      set(value) {
+        this.setDataValue('password', bcrypt.hashSync(value, bcrypt.genSaltSync()));
+      }
     },
     scoring: {
       type: Sequelize.INTEGER,
