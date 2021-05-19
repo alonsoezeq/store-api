@@ -18,6 +18,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.picture = require('./picture')(sequelize, Sequelize);
 db.product = require('./product')(sequelize, Sequelize);
+db.user = require('./user')(sequelize, Sequelize);
 
 sequelize.sync({ force: true });
 console.log("All models were synchronized successfully.");
