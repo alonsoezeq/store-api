@@ -5,10 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 const config = require('./config/config');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products');
 var usersRouter = require('./routes/users');
+
+
 
 
 var app = express();
@@ -22,6 +25,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Permitir CORS
+app.use(cors({
+    origin: 'http://localhost:3006'
+}));
 
 app.use(config.basePath + '/', indexRouter);
 app.use(config.basePath + '/products', productsRouter);
