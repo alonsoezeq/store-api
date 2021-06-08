@@ -36,4 +36,33 @@ router.post('/', (req, res, next) => {
     })});
 });
 
+// Update full user by id
+router.put('/:id', (req, res, next) => {
+  let u = user.build(req.body);
+  u.id = parseInt(req.params.id);
+
+  user.update(u.toJSON(), {
+      where: {
+        id: parseInt(req.params.id)
+      }
+    })
+    .then(() => res.status(204).send())
+    .catch(err => res.status(500).send({
+      message: err.message || 'Some error occurred while updating user'
+    }));
+})
+
+// Update product attributes by id
+router.patch('/:id', (req, res, next) => {
+  user.update(req.body, {
+      where: {
+        id: parseInt(req.params.id)
+      }
+    })
+    .then(() => res.status(204).send())
+    .catch(err => res.status(500).send({
+      message: err.message || 'Some error occurred while updating user'
+    }));
+});
+
 module.exports = router;

@@ -55,7 +55,7 @@ router.put('/:id', (req, res, next) => {
     })
     .then(() => res.status(204).send())
     .catch(err => res.status(500).send({
-      message: err.message || 'Some error occurred while creating product'
+      message: err.message || 'Some error occurred while updating product'
     }));
 })
 
@@ -68,7 +68,7 @@ router.patch('/:id', (req, res, next) => {
     })
     .then(() => res.status(204).send())
     .catch(err => res.status(500).send({
-      message: err.message || 'Some error occurred while creating product'
+      message: err.message || 'Some error occurred while updating product'
     }));
 });
 
