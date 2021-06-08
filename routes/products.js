@@ -5,12 +5,21 @@ const router = express.Router();
 const config = require('../config/config');
 const { Sequelize, sequelize, picture, product } = require('../models');
 
+const properties = {
+  include: {
+    model: picture,
+    through: {
+      attributes: []
+    }
+  }
+};
+
 // Get all products
 router.get('/', (req, res, next) => {
   product.findAll({
       offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
       limit: config.defaultPageItems,
-      include: [picture]
+      ...properties
     })
     .then(data => res.json(data))
     .catch(err => res.status(500).send({
@@ -20,9 +29,7 @@ router.get('/', (req, res, next) => {
 
 // Get product by id
 router.get('/:id', (req, res, next) => {
-  product.findByPk(parseInt(req.params.id), {
-      include: [picture]
-    })
+  product.findByPk(parseInt(req.params.id), properties)
     .then(data => data ? res.json(data) : res.status(404).send())
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while reading product'
@@ -31,10 +38,10 @@ router.get('/:id', (req, res, next) => {
 
 // Create product
 router.post('/', (req, res, next) => {
-  let creator = Array.isArray(req.body) ? (
-      product.bulkCreate(req.body, {include: [picture]})
+  const creator = Array.isArray(req.body) ? (
+      product.bulkCreate(req.body, properties)
     ) : (
-      product.create(req.body, {include: [picture]})
+      product.create(req.body, properties)
     );
 
   creator.then(data => res.status(201).json(data))

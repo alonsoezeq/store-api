@@ -8,10 +8,6 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       autoIncrement: true
     },
-    productId: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
     picture: {
       type: Sequelize.BLOB,
       allowNull: false,

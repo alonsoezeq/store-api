@@ -17,5 +17,13 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
+  store.belongsToMany(sequelize.models.picture, { 
+    through: 'store_picture'
+  });
+
+  sequelize.models.picture.belongsToMany(store, {
+    through: 'store_picture'
+  });
+
   return store;
 }

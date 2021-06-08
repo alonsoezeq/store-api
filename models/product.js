@@ -41,8 +41,12 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  product.hasMany(sequelize.models.picture, {
-    foreignKey: 'productId'
+  product.belongsToMany(sequelize.models.picture, { 
+    through: 'product_picture'
+  });
+
+  sequelize.models.picture.belongsToMany(product, {
+    through: 'product_picture'
   });
 
   return product;

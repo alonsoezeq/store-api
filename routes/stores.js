@@ -3,13 +3,23 @@
 const express = require('express');
 const router = express.Router();
 const config = require('../config/config');
-const { Sequelize, sequelize, store } = require('../models');
+const { Sequelize, sequelize, picture, store } = require('../models');
+
+const properties = {
+  include: {
+    model: picture,
+    through: {
+      attributes: []
+    }
+  }
+};
 
 // Get all stores
 router.get('/', (req, res, next) => {
   store.findAll({
       offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
-      limit: config.defaultPageItems
+      limit: config.defaultPageItems,
+      ...properties
     })
     .then(data => res.json(data))
     .catch(err => res.status(500).send({
@@ -19,7 +29,7 @@ router.get('/', (req, res, next) => {
 
 // Get store by id
 router.get('/:id', (req, res, next) => {
-  store.findByPk(parseInt(req.params.id))
+  store.findByPk(parseInt(req.params.id), properties)
     .then(data => data ? res.json(data) : res.status(404).send())
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while reading store'
@@ -28,7 +38,11 @@ router.get('/:id', (req, res, next) => {
 
 // Create store
 router.post('/', (req, res, next) => {
-  let creator = Array.isArray(req.body) ? store.bulkCreate(req.body) : store.create(req.body);
+  let creator = Array.isArray(req.body) ? (
+    store.bulkCreate(req.body, properties)
+  ) : (
+    store.create(req.body, properties)
+  )
 
   creator.then(data => res.status(201).json(data))
     .catch(err => {console.log(err); res.status(500).send({
