@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, Sequelize) => {
-  const user = sequelize.define('store', {
+  const store = sequelize.define('store', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -17,5 +17,5 @@ module.exports = (sequelize, Sequelize) => {
     }
   });
 
-  return user;
+  return store;
 }

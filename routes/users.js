@@ -50,9 +50,9 @@ router.put('/:id', (req, res, next) => {
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while updating user'
     }));
-})
+});
 
-// Update product attributes by id
+// Update user attributes by id
 router.patch('/:id', (req, res, next) => {
   user.update(req.body, {
       where: {

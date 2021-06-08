@@ -36,4 +36,33 @@ router.post('/', (req, res, next) => {
     })});
 });
 
+// Update full store by id
+router.put('/:id', (req, res, next) => {
+  let s = store.build(req.body);
+  s.id = parseInt(req.params.id);
+
+  store.update(s.toJSON(), {
+      where: {
+        id: parseInt(req.params.id)
+      }
+    })
+    .then(() => res.status(204).send())
+    .catch(err => res.status(500).send({
+      message: err.message || 'Some error occurred while updating store'
+    }));
+});
+
+// Update store attributes by id
+router.patch('/:id', (req, res, next) => {
+  store.update(req.body, {
+      where: {
+        id: parseInt(req.params.id)
+      }
+    })
+    .then(() => res.status(204).send())
+    .catch(err => res.status(500).send({
+      message: err.message || 'Some error occurred while updating store'
+    }));
+});
+
 module.exports = router;
