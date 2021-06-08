@@ -9,6 +9,7 @@ const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var productsRouter = require('./routes/products');
+var storesRouter = require('./routes/stores')
 var usersRouter = require('./routes/users');
 
 
@@ -33,6 +34,7 @@ app.use(cors({
 
 app.use(config.basePath + '/', indexRouter);
 app.use(config.basePath + '/products', productsRouter);
+app.use(config.basePath + '/stores', storesRouter);
 app.use(config.basePath + '/users', usersRouter);
 
 // catch 404 and forward to error handler
