@@ -21,7 +21,35 @@ db.product = require('./product')(sequelize, Sequelize);
 db.store = require('./store')(sequelize, Sequelize);
 db.user = require('./user')(sequelize, Sequelize);
 
-sequelize.sync({ force: true });
+sequelize.sync({
+  force: true // This creates the table, dropping it first if it already existed.
+})
+.then(seq => {
+  // Populate initial objects
+  seq.models.user.bulkCreate([
+    {
+      username: "admin",
+      fullname: "Store Administrator",
+      email: "administrator@store.com",
+      role: "admin",
+      password: "admin"
+    },
+    {
+      username: "seller",
+      fullname: "Store Seller",
+      email: "seller@store.com",
+      role: "seller",
+      password: "seller"
+    },
+    {
+      username: "buyer",
+      fullname: "Store Buyer",
+      email: "buyer@store.com",
+      role: "buyer",
+      password: "buyer"
+    }
+  ]);
+});
 console.log("All models were synchronized successfully.");
 
 module.exports = db;

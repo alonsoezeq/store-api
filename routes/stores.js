@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/config');
 const { Sequelize, sequelize, picture, store } = require('../models');
+const auth = require('../middleware/auth');
 
 const properties = {
   include: {
@@ -37,7 +38,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // Create store
-router.post('/', (req, res, next) => {
+router.post('/', auth(['admin', 'employee']), (req, res, next) => {
   let creator = Array.isArray(req.body) ? (
     store.bulkCreate(req.body, properties)
   ) : (
@@ -51,7 +52,7 @@ router.post('/', (req, res, next) => {
 });
 
 // Update full store by id
-router.put('/:id', (req, res, next) => {
+router.put('/:id', auth(['admin', 'employee']), (req, res, next) => {
   let s = store.build(req.body);
   s.id = parseInt(req.params.id);
 
@@ -67,7 +68,7 @@ router.put('/:id', (req, res, next) => {
 });
 
 // Update store attributes by id
-router.patch('/:id', (req, res, next) => {
+router.patch('/:id', auth(['admin', 'employee']), (req, res, next) => {
   store.update(req.body, {
       where: {
         id: parseInt(req.params.id)

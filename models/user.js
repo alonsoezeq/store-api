@@ -14,12 +14,15 @@ module.exports = (sequelize, Sequelize) => {
     },
     email: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isEmail: true
+      }
     },
     role: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false,
-      defaultValue: 2 // 0 == admin, 1 == vendedor, 2 == cliente. ToDo: Cruzar con tabla de rol.
+      defaultValue: 'buyer' // 'admin', 'seller' or 'buyer'
     },
     password: {
       type: Sequelize.STRING,

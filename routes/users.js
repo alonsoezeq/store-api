@@ -4,9 +4,12 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config/config');
 const { Sequelize, sequelize, user } = require('../models');
+const auth = require('../middleware/auth');
+
+/// ToDo: Add 'self' role for read/write logged in user
 
 // Get all users
-router.get('/', (req, res, next) => {
+router.get('/', auth('admin'), (req, res, next) => {
   user.findAll({
       offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
       limit: config.defaultPageItems
@@ -18,7 +21,7 @@ router.get('/', (req, res, next) => {
 });
 
 // Get user by id
-router.get('/:id', (req, res, next) => {
+router.get('/:id', auth('admin'), (req, res, next) => {
   user.findByPk(parseInt(req.params.id))
     .then(data => data ? res.json(data) : res.status(404).send())
     .catch(err => res.status(500).send({
@@ -37,7 +40,7 @@ router.post('/', (req, res, next) => {
 });
 
 // Update full user by id
-router.put('/:id', (req, res, next) => {
+router.put('/:id', auth('admin'), (req, res, next) => {
   let u = user.build(req.body);
   u.id = parseInt(req.params.id);
 
@@ -53,7 +56,7 @@ router.put('/:id', (req, res, next) => {
 });
 
 // Update user attributes by id
-router.patch('/:id', (req, res, next) => {
+router.patch('/:id', auth('admin'), (req, res, next) => {
   user.update(req.body, {
       where: {
         id: parseInt(req.params.id)

@@ -14,7 +14,9 @@
     "http-errors": "~1.6.3",
     "image-type": "^4.1.0",
     "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "mysql2": "^2.2.5",
     "sequelize": "^6.6.2",
     "sqlite3": "^5.0.2"
   }

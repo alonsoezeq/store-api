@@ -8,10 +8,10 @@ const config = require('./config/config');
 const cors = require('cors');
 
 var indexRouter = require('./routes/index');
+var authRouter = require('./routes/auth');
 var productsRouter = require('./routes/products');
 var storesRouter = require('./routes/stores')
 var usersRouter = require('./routes/users');
-
 
 
 
@@ -29,10 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Permitir CORS
 app.use(cors({
-    origin: 'http://localhost:3006'
+  origin: 'http://localhost:3006'
 }));
 
 app.use(config.basePath + '/', indexRouter);
+app.use(config.basePath + '/auth', authRouter);
 app.use(config.basePath + '/products', productsRouter);
 app.use(config.basePath + '/stores', storesRouter);
 app.use(config.basePath + '/users', usersRouter);
