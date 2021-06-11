@@ -6,8 +6,6 @@ const config = require('../config/config');
 const { Sequelize, sequelize, user } = require('../models');
 const auth = require('../middleware/auth');
 
-/// ToDo: Add 'self' role for read/write logged in user
-
 // Get all users
 router.get('/', auth('admin'), (req, res, next) => {
   user.findAll({

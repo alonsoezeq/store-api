@@ -10,6 +10,8 @@ module.exports = (roles = []) => {
   return (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const payload = jwt.verify(token, config.jwtSecret);
-    return (roles.length === 0 || roles.includes(payload.role)) ? next() : res.status(401).send();
+    const authorized = (roles.length === 0 || roles.includes(payload.role));
+
+    return authorized ? next() : res.status(401).send();
   }
 }

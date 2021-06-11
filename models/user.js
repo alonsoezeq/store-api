@@ -19,6 +19,10 @@ module.exports = (sequelize, Sequelize) => {
         isEmail: true
       }
     },
+    fullname: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     role: {
       type: Sequelize.STRING,
       allowNull: false,
