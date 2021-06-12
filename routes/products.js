@@ -31,7 +31,9 @@ router.get('/', (req, res, next) => {
 // Get product by id
 router.get('/:id', (req, res, next) => {
   product.findByPk(parseInt(req.params.id), properties)
-    .then(data => data ? res.json(data) : res.status(404).send())
+    .then(data => data ? res.json(data) : res.status(404).send({
+      message: 'Product not found'
+    }))
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while reading product'
     }));

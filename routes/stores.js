@@ -31,7 +31,9 @@ router.get('/', (req, res, next) => {
 // Get store by id
 router.get('/:id', (req, res, next) => {
   store.findByPk(parseInt(req.params.id), properties)
-    .then(data => data ? res.json(data) : res.status(404).send())
+    .then(data => data ? res.json(data) : res.status(404).send({
+      message: 'Store not found'
+    }))
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while reading store'
     }));

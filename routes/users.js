@@ -21,7 +21,9 @@ router.get('/', auth('admin'), (req, res, next) => {
 // Get user by id
 router.get('/:id', auth('admin'), (req, res, next) => {
   user.findByPk(parseInt(req.params.id))
-    .then(data => data ? res.json(data) : res.status(404).send())
+    .then(data => data ? res.json(data) : res.status(404).send({
+      message: 'User not found'
+    }))
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while reading user'
     }));
@@ -32,9 +34,9 @@ router.post('/', (req, res, next) => {
   let creator = Array.isArray(req.body) ? user.bulkCreate(req.body) : user.create(req.body);
 
   creator.then(data => res.status(201).json(data))
-    .catch(err => {console.log(err); res.status(500).send({
+    .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while creating object.'
-    })});
+    }));
 });
 
 // Update full user by id

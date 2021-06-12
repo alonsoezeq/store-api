@@ -28,7 +28,9 @@ router.post('/', function(req, res, next) {
 
         res.send({token});
       } else {
-        res.status(401).send();
+        res.status(401).send({
+          message: 'Unauthorized'
+        });
       }
   })
   .catch(err => res.status(500).send({
