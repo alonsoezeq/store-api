@@ -8,17 +8,16 @@ module.exports = (roles = []) => {
   }  
 
   return (req, res, next) => {
-   
+
     try {
       const token = req.headers.authorization?.split(' ')[1];
-      const payload = jwt.verify(token, config.jwtSecret);
-      req.jwtPayload = payload;
+      req.jwtPayload = jwt.verify(token, config.jwtSecret);
     } catch (error) {
       res.status(401).send({ message: error.message });
       return;
     }
-    
-    const authorized = (roles.length === 0 || roles.includes(payload.role));
+
+    const authorized = (roles.length === 0 || roles.includes(req.jwtPayload.role));
 
     return authorized ? next() : res.status(401).send({
       message: 'Unauthorized'
