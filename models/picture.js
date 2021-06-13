@@ -1,5 +1,3 @@
-const imageType = require('image-type');
-
 module.exports = (sequelize, Sequelize) => {
   const picture = sequelize.define('picture', {
     id: {

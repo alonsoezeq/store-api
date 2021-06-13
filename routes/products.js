@@ -48,9 +48,9 @@ router.post('/', auth(['admin', 'employee']), (req, res, next) => {
     );
 
   creator.then(data => res.status(201).json(data))
-    .catch(err => {console.log(err); res.status(500).send({
+    .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while creating product'
-    })});
+    }));
 });
 
 // Update full product by id

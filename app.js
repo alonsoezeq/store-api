@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const cartRouter = require('./routes/cart');
 const productsRouter = require('./routes/products');
 const profileRouter = require('./routes/profile');
 const storesRouter = require('./routes/stores')
@@ -33,6 +34,7 @@ app.use(cors({ origin: '*' }));
 
 app.use(`${config.basePath}/`, indexRouter);
 app.use(`${config.basePath}/auth`, authRouter);
+app.use(`${config.basePath}/cart`, cartRouter);
 app.use(`${config.basePath}/products`, productsRouter);
 app.use(`${config.basePath}/profile`, profileRouter);
 app.use(`${config.basePath}/stores`, storesRouter);

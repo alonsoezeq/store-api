@@ -2,9 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const config = require('../config/config');
 const { Sequelize, sequelize, user } = require('../models');
-const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
 
 // Get authenticated user

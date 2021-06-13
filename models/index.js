@@ -20,6 +20,8 @@ db.picture = require('./picture')(sequelize, Sequelize);
 db.product = require('./product')(sequelize, Sequelize);
 db.store = require('./store')(sequelize, Sequelize);
 db.user = require('./user')(sequelize, Sequelize);
+db.cartitem = require('./cartitem')(sequelize, Sequelize);
+
 
 sequelize.sync({
   force: true // This creates the table, dropping it first if it already existed.
