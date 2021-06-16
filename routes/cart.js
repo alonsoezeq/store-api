@@ -13,7 +13,7 @@ const properties = {
 };
 
 // Get user's cart items
-router.get('/', auth(), (req, res, next) => {
+router.get('/', auth('buyer'), (req, res, next) => {
   cartitem.findAll({
       ...properties,
       where: {
@@ -27,7 +27,7 @@ router.get('/', auth(), (req, res, next) => {
 });
 
 // Add/Modify item to/in user's cart
-router.post('/', auth(), (req, res, next) => {
+router.post('/', auth('buyer'), (req, res, next) => {
   let body = req.body;
   body.userId = req.jwtPayload.id;
 
@@ -39,7 +39,7 @@ router.post('/', auth(), (req, res, next) => {
 });
 
 // Remove item from user's cart
-router.delete('/:id', auth(), (req, res, next) => {
+router.delete('/:id', auth('buyer'), (req, res, next) => {
   cartitem.destroy({
       where: {
         userId: req.jwtPayload.id,
