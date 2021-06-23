@@ -32,7 +32,7 @@ router.post('/', auth('buyer'), (req, res, next) => {
   body.userId = req.jwtPayload.id;
 
   cartitem.upsert(body)
-    .then(data => res.status(200).send())
+    .then(data => res.status(200).send(body))
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while creating object.'
     }));

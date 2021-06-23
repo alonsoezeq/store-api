@@ -30,7 +30,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Permitir CORS
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 200
+}));
 
 app.use(`${config.basePath}/`, indexRouter);
 app.use(`${config.basePath}/auth`, authRouter);

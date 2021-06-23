@@ -24,7 +24,7 @@ db.cartitem = require('./cartitem')(sequelize, Sequelize);
 
 
 sequelize.sync({
-  force: true // This creates the table, dropping it first if it already existed.
+  // force: true // This creates the table, dropping it first if it already existed.
 })
 .then(seq => {
   // Populate initial objects
