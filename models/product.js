@@ -30,7 +30,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     quantity: {
       type: Sequelize.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        min: 0
+      }
     },
     price: {
       type: Sequelize.DOUBLE,

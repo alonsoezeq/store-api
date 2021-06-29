@@ -21,6 +21,8 @@ db.product = require('./product')(sequelize, Sequelize);
 db.store = require('./store')(sequelize, Sequelize);
 db.user = require('./user')(sequelize, Sequelize);
 db.cartitem = require('./cartitem')(sequelize, Sequelize);
+db.transactionitem = require('./transactionitem')(sequelize, Sequelize);
+db.transaction = require('./transaction')(sequelize, Sequelize);
 
 
 sequelize.sync({

@@ -2,20 +2,15 @@
 
 const express = require('express');
 const router = express.Router();
-const config = require('../config/config');
-const { Sequelize, sequelize, cartitem, order, user, product } = require('../models');
+const { Sequelize, sequelize, cartitem, product, transaction, transactionitem } = require('../models');
 const auth = require('../middleware/auth');
-
-const properties = {
-  include: {
-    model: product
-  }
-};
 
 // Get user's cart items
 router.get('/', auth('buyer'), (req, res, next) => {
   cartitem.findAll({
-      ...properties,
+      include: {
+        model: product
+      },
       where: {
         userId: req.jwtPayload.id
       }
@@ -41,7 +36,7 @@ router.post('/', auth('buyer'), (req, res, next) => {
       res.status(404).send({message: 'Product not found'})
     } else if (data.quantity >= body.quantity) {
       cartitem.upsert(body)
-      .then(data => res.status(200).send(body))
+      .then(data => res.status(200).send(data))
       .catch(err => res.status(500).send({
         message: err.message || 'Some error occurred while creating object.'
       }));
@@ -66,6 +61,65 @@ router.delete('/:id', auth('buyer'), (req, res, next) => {
     .catch(err => res.status(500).send({
       message: err.message || 'Some error occurred while creating object.'
     }));
+});
+
+
+// Buy cart
+router.post('/checkout', auth('buyer'), (req, res, next) => {
+  sequelize.transaction(t => {
+    return cartitem.findAll({
+      include: {
+        model: product
+      },
+      where: {
+        userId: req.jwtPayload.id
+      },
+      transaction: t
+    })
+    .then(items => {
+      return transaction.create({
+        userId: req.jwtPayload.id,
+        totalPrice: items.reduce((acc, item) => acc + (item.product.price * item.quantity)),
+        address: 'TEST',
+        transactionitems: items.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          unitPrice: item.product.price
+        }))
+      }, {
+        include: {
+          model: transactionitem
+        },
+        transaction: t
+      })
+      .then((data) => {
+        let promises = [];
+        data.transactionitems.forEach(({productId, quantity}) => {
+          promises.push(product.decrement({
+            quantity: quantity
+          }, {
+            where: {
+              id: parseInt(productId)
+            },
+            transaction: t
+          }));
+        });
+        return Promise.resolve(data);
+      })
+      .then(data => {
+        cartitem.destroy({
+          where: {
+            userId: req.jwtPayload.id
+          }
+        });
+        return Promise.resolve(data);
+      });
+    });
+  })
+  .then(data => res.status(200).send(data))
+  .catch(err => res.status(500).send({
+    message: err.message || 'Some error occurred while creating transaction.'
+  }));
 });
 
 module.exports = router;
