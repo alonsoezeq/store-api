@@ -22,7 +22,7 @@ router.get('/', auth('buyer'), (req, res, next) => {
     })
     .then(data => res.json(data))
     .catch(err => res.status(500).send({
-      message: err.message || 'Some error occurred while reading user'
+      message: err.message || 'Some error occurred while reading cart item'
     }));
 });
 
@@ -31,11 +31,27 @@ router.post('/', auth('buyer'), (req, res, next) => {
   let body = req.body;
   body.userId = req.jwtPayload.id;
 
-  cartitem.upsert(body)
-    .then(data => res.status(200).send(body))
-    .catch(err => res.status(500).send({
-      message: err.message || 'Some error occurred while creating object.'
-    }));
+  product.findOne({
+    where: {
+      id: body.productId
+    }
+  })
+  .then(data => {
+    if (!data) {
+      res.status(404).send({message: 'Product not found'})
+    } else if (data.quantity >= body.quantity) {
+      cartitem.upsert(body)
+      .then(data => res.status(200).send(body))
+      .catch(err => res.status(500).send({
+        message: err.message || 'Some error occurred while creating object.'
+      }));
+    } else {
+      res.status(409).send({message: `${data.quantity} products available`});
+    }
+  })
+  .catch(err => res.status(500).send({
+    message: err.message || 'Some error occurred while reading cart item'
+  }));
 });
 
 // Remove item from user's cart
