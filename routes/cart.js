@@ -79,7 +79,7 @@ router.post('/checkout', auth('buyer'), (req, res, next) => {
     .then(items => {
       return transaction.create({
         userId: req.jwtPayload.id,
-        totalPrice: items.reduce((acc, item) => acc + (item.product.price * item.quantity)),
+        totalPrice: items.reduce((acc, item) => acc + item.product.price * item.quantity, 0),
         address: 'TEST',
         transactionitems: items.map(item => ({
           productId: item.productId,
