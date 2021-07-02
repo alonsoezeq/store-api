@@ -20,6 +20,12 @@ router.get('/', (req, res, next) => {
   product.findAll({
       offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
       limit: config.defaultPageItems,
+      where: {
+        // Filter by attributes which exists in object model
+        ...Object.keys(req.query)
+          .filter((key) => Object.keys(product.rawAttributes).includes(key))
+          .reduce((obj, key) => ({...obj, [key]: req.query[key]}), {})
+      },
       ...properties
     })
     .then(data => res.json(data))
