@@ -8,9 +8,9 @@ const auth = require('../middleware/auth');
 // Get all sales
 router.get('/', auth('seller'), (req, res, next) => {
   transaction.findAll({
-    where: {
-      userId: req.jwtPayload.id
-    },
+    // where: {
+    //   userId: req.jwtPayload.id
+    // },
     include: {
       model: transactionitem
     }
