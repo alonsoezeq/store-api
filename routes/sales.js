@@ -18,4 +18,17 @@ router.get('/', auth(['admin', 'seller']), (req, res, next) => {
   }));
 });
 
+// Modify transaction by id
+router.patch('/:id', auth(['admin', 'seller']), (req, res, next) => {
+  transaction.update(req.body, {
+      where: {
+        id: parseInt(req.params.id)
+      }
+    })
+    .then(() => res.status(204).send())
+    .catch(err => res.status(500).send({
+      message: err.message || 'Some error occurred while updating transaction'
+    }));
+});
+
 module.exports = router;
