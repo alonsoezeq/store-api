@@ -46,7 +46,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // Create product
-router.post('/', auth(['admin', 'employee']), (req, res, next) => {
+router.post('/', auth(['admin', 'seller']), (req, res, next) => {
   const creator = Array.isArray(req.body) ? (
       product.bulkCreate(req.body, properties)
     ) : (
@@ -60,7 +60,7 @@ router.post('/', auth(['admin', 'employee']), (req, res, next) => {
 });
 
 // Update full product by id
-router.put('/:id', auth(['admin', 'employee']), (req, res, next) => {
+router.put('/:id', auth(['admin', 'seller']), (req, res, next) => {
   let p = product.build(req.body);
   p.id = parseInt(req.params.id);
 
@@ -76,7 +76,7 @@ router.put('/:id', auth(['admin', 'employee']), (req, res, next) => {
 });
 
 // Update product attributes by id
-router.patch('/:id', auth(['admin', 'employee']), (req, res, next) => {
+router.patch('/:id', auth(['admin', 'seller']), (req, res, next) => {
   product.update(req.body, {
       where: {
         id: parseInt(req.params.id)

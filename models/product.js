@@ -41,6 +41,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     category: {
       type: Sequelize.STRING
+    },
+    gender: {
+      type: Sequelize.STRING
     }
   });
 
