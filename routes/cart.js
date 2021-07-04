@@ -77,6 +77,18 @@ router.post('/checkout', auth('buyer'), (req, res, next) => {
       transaction: t
     })
     .then(items => {
+      if (items.length === 0) {
+        return Promise.reject({
+          message: 'No products to checkout.'
+        })
+      }
+
+      if (items.find((item) => item.quantity > item.product.quantity)) {
+        return Promise.reject({
+          message: 'Some products are not available.'
+        });
+      }
+
       return transaction.create({
         userId: req.jwtPayload.id,
         totalPrice: items.reduce((acc, item) => acc + item.product.price * item.quantity, 0),
