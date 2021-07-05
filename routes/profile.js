@@ -19,7 +19,7 @@ router.get('/', auth(), (req, res, next) => {
 
 // Update product attributes by id
 router.patch('/:id', auth(), (req, res, next) => {
-  product.update(req.body, {
+  user.update(req.body, {
       where: {
         id: parseInt(req.params.id)
       }
