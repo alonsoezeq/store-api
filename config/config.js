@@ -8,4 +8,4 @@ module.exports = {
   jwtSecret: 'secretsecretsecretsecret',
   jwtExpires: '1d'
 };
-To use locally, use connectionUri: 'sqlite::memory:',
+// To use locally, use connectionUri: 'sqlite::memory:',
