@@ -55,7 +55,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: true,
       defaultValue: null
     },
-    adress: {
+    address: {
       type: Sequelize.STRING,
       allowNull: true
     },
