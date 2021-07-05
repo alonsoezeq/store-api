@@ -54,7 +54,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.DATE,
       allowNull: true,
       defaultValue: null
-    }
+    },
+    adress: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
   });
 
   return user;
