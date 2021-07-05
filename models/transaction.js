@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => {
+vamodule.exports = (sequelize, Sequelize) => {
   const transaction = sequelize.define('transaction', {
     id: {
       type: Sequelize.INTEGER,
@@ -42,6 +42,10 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: 0
     },
     address: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    province: {
       type: Sequelize.STRING,
       allowNull: false
     },

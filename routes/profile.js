@@ -16,4 +16,18 @@ router.get('/', auth(), (req, res, next) => {
     }));
 });
 
+
+// Update product attributes by id
+router.patch('/:id', auth(), (req, res, next) => {
+  product.update(req.body, {
+      where: {
+        id: parseInt(req.params.id)
+      }
+    })
+    .then(() => res.status(204).send())
+    .catch(err => res.status(500).send({
+      message: err.message || 'Some error occurred while updating product'
+    }));
+});
+
 module.exports = router;
