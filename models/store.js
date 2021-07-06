@@ -14,7 +14,17 @@ module.exports = (sequelize, Sequelize) => {
     address: {
       type: Sequelize.STRING,
       allowNull: false
-    }
+    },
+    active: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
+    disabled: {
+      type: Sequelize.DATE,
+      allowNull: true,
+      defaultValue: null
+    },
   });
 
   store.belongsToMany(sequelize.models.picture, { 
