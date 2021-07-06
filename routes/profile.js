@@ -48,7 +48,7 @@ router.put('/:id', auth(), (req, res, next) => {
 
   }, {
       where: {
-        id: parseInt(reqeR.params.id)
+        id: parseInt(req.params.id)
       }
     })
     .then(() => res.status(204).send())
