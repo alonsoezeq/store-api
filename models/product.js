@@ -44,7 +44,17 @@ module.exports = (sequelize, Sequelize) => {
     },
     gender: {
       type: Sequelize.STRING
-    }
+    },
+    active: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    },
+    disabled: {
+      type: Sequelize.DATE,
+      allowNull: true,
+      defaultValue: null
+    },
   });
 
   product.belongsToMany(sequelize.models.picture, { 
