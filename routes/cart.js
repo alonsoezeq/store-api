@@ -68,7 +68,8 @@ router.delete('/:id', auth('buyer'), (req, res, next) => {
 router.post('/checkout', auth('buyer'), (req, res, next) => {
   const {payment} = req.body;
   let shippingStatus = "paid";
-
+  let shippingPrice = payment.shippingPrice;
+  let address = payment.address;
   if(payment.pickupPlace === 'home'){
     shippingStatus = "deliveryPending";
   } else if(payment.pickupPlace === 'store') {
@@ -100,10 +101,11 @@ router.post('/checkout', auth('buyer'), (req, res, next) => {
 
       return transaction.create({
         userId: req.jwtPayload.id,
-        totalPrice: items.reduce((acc, item) => acc + item.product.price * item.quantity, 0),
+        totalPrice: items.reduce((acc, item) => acc + item.product.price * item.quantity, shippingPrice),
         paymentStatus: 'completed',
         shippingStatus: shippingStatus,
-        address: 'TEST',
+        address: address,
+        shippingPrice: shippingPrice,
         transactionitems: items.map(item => ({
           productId: item.productId,
           quantity: item.quantity,
