@@ -25,7 +25,6 @@ router.post('/', function(req, res, next) {
         const token = jwt.sign(payload, config.jwtSecret, {
           expiresIn: config.jwtExpires
         });
-
         res.send({token});
       } else {
         res.status(401).send({
