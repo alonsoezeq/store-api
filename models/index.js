@@ -36,21 +36,27 @@ sequelize.sync({
       fullname: "Store Administrator",
       email: "administrator@store.com",
       role: "admin",
-      password: "admin"
+      password: "admin",
+      adress: "Mitre 1400",
+      province: "Buenos Aires"
     },
     {
       username: "seller",
       fullname: "Store Seller",
       email: "seller@store.com",
       role: "seller",
-      password: "seller"
+      password: "seller",
+      adress: "Av. Santa Fe 1700",
+      province: "Capital Federal"
     },
     {
       username: "buyer",
       fullname: "Store Buyer",
       email: "buyer@store.com",
       role: "buyer",
-      password: "buyer"
+      password: "buyer",
+      adress: "Avenida Belgrano 2320",
+      province: "Buenos Aires"
     }
   ]);
 });

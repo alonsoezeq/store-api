@@ -59,6 +59,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: true
     },
+    province: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
   });
 
   return user;

@@ -66,6 +66,15 @@ router.delete('/:id', auth('buyer'), (req, res, next) => {
 
 // Buy cart
 router.post('/checkout', auth('buyer'), (req, res, next) => {
+  const {payment} = req.body;
+  let shippingStatus = "paid";
+
+  if(payment.pickupPlace === 'home'){
+    shippingStatus = "deliveryPending";
+  } else if(payment.pickupPlace === 'store') {
+    shippingStatus = "pickupPending";
+  }
+
   sequelize.transaction(t => {
     return cartitem.findAll({
       include: {
@@ -92,6 +101,8 @@ router.post('/checkout', auth('buyer'), (req, res, next) => {
       return transaction.create({
         userId: req.jwtPayload.id,
         totalPrice: items.reduce((acc, item) => acc + item.product.price * item.quantity, 0),
+        paymentStatus: 'completed',
+        shippingStatus: shippingStatus,
         address: 'TEST',
         transactionitems: items.map(item => ({
           productId: item.productId,
