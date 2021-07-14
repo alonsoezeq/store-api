@@ -10,14 +10,16 @@ module.exports = (sequelize, Sequelize) => {
     },
     username: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
         isEmail: true
-      }
+      },
+      unique: true
     },
     fullname: {
       type: Sequelize.STRING,

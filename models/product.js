@@ -55,6 +55,13 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: true,
       defaultValue: null
     },
+  }, {
+    indexes: [
+      {
+        unique: true,
+        fields: ['article', 'color', 'size', 'category', 'gender']
+      }
+    ]
   });
 
   product.belongsToMany(sequelize.models.picture, { 
