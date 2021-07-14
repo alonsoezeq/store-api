@@ -16,24 +16,6 @@ router.get('/', auth(), (req, res, next) => {
     }));
 });
 
-
-// Update profile attributes by id
-router.patch('/:id', auth(), (req, res, next) => {
-
-  let p = user.build(req.body);
-  p.id = parseInt(req.params.id);
-
-  user.update(p.toJSON(), {
-      where: {
-        id: parseInt(p.id)
-      }
-    })
-    .then(() => res.status(204).send())
-    .catch(err => res.status(500).send({
-      message: err.message || 'Some error occurred while updating product'
-    }));
-});
-
 // Update profile by id
 router.put('/:id', auth(), (req, res, next) => {
   let s = user.build(req.body);
@@ -48,7 +30,7 @@ router.put('/:id', auth(), (req, res, next) => {
 
   }, {
       where: {
-        id: parseInt(req.params.id)
+        id: parseInt(req.jwtPayload.id)
       }
     })
     .then(() => res.status(204).send())
