@@ -15,7 +15,7 @@ router.post('/', function(req, res, next) {
     }
   })
   .then(data => {
-      if (data && bcrypt.compareSync(req.body.password, data.password)) {
+      if (data && bcrypt.compareSync(req.body.password, data.password) && data.active === true) {
         const payload = {
           id: data.id,
           username: data.username,
