@@ -28,6 +28,23 @@ router.get('/', (req, res, next) => {
     }));
 });
 
+// Get all active stores
+router.get('/active', (req, res, next) => {
+  store.findAll({
+      offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
+
+      limit: config.defaultPageItems,
+      where: {
+        active: true
+      },
+      ...properties
+    })
+    .then(data => res.json(data))
+    .catch(err => res.status(500).send({
+      message: err.message || 'Some error occurred while reading stores'
+    }));
+});
+
 // Get store by id
 router.get('/:id', (req, res, next) => {
   store.findByPk(parseInt(req.params.id), properties)

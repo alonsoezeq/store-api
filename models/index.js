@@ -37,7 +37,7 @@ sequelize.sync({
       email: "administrator@store.com",
       role: "admin",
       password: "admin",
-      adress: "Mitre 1400",
+      address: "Mitre 1400",
       province: "Buenos Aires"
     },
     {
@@ -46,7 +46,7 @@ sequelize.sync({
       email: "seller@store.com",
       role: "seller",
       password: "seller",
-      adress: "Av. Santa Fe 1700",
+      address: "Av. Santa Fe 1700",
       province: "Capital Federal"
     },
     {
@@ -55,7 +55,7 @@ sequelize.sync({
       email: "buyer@store.com",
       role: "buyer",
       password: "buyer",
-      adress: "Avenida Belgrano 2320",
+      address: "Avenida Belgrano 2320",
       province: "Buenos Aires"
     }
   ]);
