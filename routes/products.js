@@ -26,6 +26,9 @@ router.get('/', (req, res, next) => {
           .filter((key) => Object.keys(product.rawAttributes).includes(key))
           .reduce((obj, key) => ({...obj, [key]: req.query[key]}), {})
       },
+      order: [
+        ['priority', 'DESC']
+      ],
       ...properties
     })
     .then(data => res.json(data))

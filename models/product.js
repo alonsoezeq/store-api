@@ -55,6 +55,11 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: true,
       defaultValue: null
     },
+    priority: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    }
   }, {
     indexes: [
       {
