@@ -16,8 +16,7 @@ router.get('/', auth('admin'), (req, res, next) => {
         ...Object.keys(req.query)
           .filter((key) => Object.keys(user.rawAttributes).includes(key))
           .reduce((obj, key) => ({...obj, [key]: req.query[key]}), {})
-      },
-      ...properties
+      }
     })
     .then(data => res.json(data))
     .catch(err => res.status(500).send({
