@@ -20,22 +20,11 @@ router.get('/', (req, res, next) => {
   store.findAll({
       offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
       limit: config.defaultPageItems,
-      ...properties
-    })
-    .then(data => res.json(data))
-    .catch(err => res.status(500).send({
-      message: err.message || 'Some error occurred while reading stores'
-    }));
-});
-
-// Get all active stores
-router.get('/active', (req, res, next) => {
-  store.findAll({
-      offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
-
-      limit: config.defaultPageItems,
       where: {
-        active: true
+        // Filter by attributes which exists in object model
+        ...Object.keys(req.query)
+          .filter((key) => Object.keys(store.rawAttributes).includes(key))
+          .reduce((obj, key) => ({...obj, [key]: req.query[key]}), {})
       },
       ...properties
     })

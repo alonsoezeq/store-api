@@ -10,7 +10,14 @@ const auth = require('../middleware/auth');
 router.get('/', auth('admin'), (req, res, next) => {
   user.findAll({
       offset: req.query.page ? req.query.page * config.defaultPageItems : 0,
-      limit: config.defaultPageItems
+      limit: config.defaultPageItems,
+      where: {
+        // Filter by attributes which exists in object model
+        ...Object.keys(req.query)
+          .filter((key) => Object.keys(user.rawAttributes).includes(key))
+          .reduce((obj, key) => ({...obj, [key]: req.query[key]}), {})
+      },
+      ...properties
     })
     .then(data => res.json(data))
     .catch(err => res.status(500).send({
