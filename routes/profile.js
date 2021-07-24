@@ -18,16 +18,12 @@ router.get('/', auth(), (req, res, next) => {
 
 // Update profile by id
 router.put('/:id', auth(), (req, res, next) => {
-  let s = user.build(req.body);
-  //s.id = parseInt(req.params.id);
-
   user.update({
   	username: req.body.username,
   	fullname: req.body.fullname,
   	email: req.body.email,
   	adress: req.body.adress,
   	province: req.body.province
-
   }, {
       where: {
         id: parseInt(req.jwtPayload.id)
