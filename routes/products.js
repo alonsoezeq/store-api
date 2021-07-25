@@ -27,7 +27,8 @@ router.get('/', (req, res, next) => {
           .reduce((obj, key) => ({...obj, [key]: req.query[key]}), {})
       },
       order: [
-        ['priority', 'DESC']
+        ['priority', 'DESC'],
+        ['title', 'ASC']
       ],
       ...properties
     })

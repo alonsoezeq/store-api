@@ -26,6 +26,9 @@ router.get('/', (req, res, next) => {
           .filter((key) => Object.keys(store.rawAttributes).includes(key))
           .reduce((obj, key) => ({...obj, [key]: req.query[key]}), {})
       },
+      order: [
+        ['name', 'ASC']
+      ],
       ...properties
     })
     .then(data => res.json(data))
