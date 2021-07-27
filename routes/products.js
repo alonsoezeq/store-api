@@ -65,18 +65,39 @@ router.post('/', auth(['admin', 'seller']), (req, res, next) => {
 
 // Update full product by id
 router.put('/:id', auth(['admin', 'seller']), (req, res, next) => {
-  let p = product.build(req.body);
-  p.id = parseInt(req.params.id);
-
-  product.update(p.toJSON(), {
-      where: {
-        id: parseInt(req.params.id)
-      }
-    })
-    .then(() => res.status(204).send())
-    .catch(err => res.status(500).send({
-      message: err.message || 'Some error occurred while updating product'
-    }));
+  product.findByPk(parseInt(req.params.id), properties)
+  .then(data => {
+    if (data) {
+      data.update(req.body)
+      .then(() => {
+        if (req.body.pictures?.length > 0) {
+          picture.bulkCreate(req.body.pictures, { updateOnDuplicate: ['id'] })
+          .then((pictures) => {
+            data.setPictures(pictures)
+            .then((product) => res.json(data))
+            .catch((err) => res.status(500).send({
+              message: 'Cant update product pictures'
+            }));
+          })
+          .catch((err) => res.status(500).send({
+            message: 'Cant create product pictures'
+          }));
+        } else {
+          res.json(data);
+        }
+      })
+      .catch((err) => res.status(500).send({
+        message: 'Cant update product'
+      }));
+    } else {
+      res.status(404).send({
+        message: 'Product not found'
+      });
+    }
+  })
+  .catch(err => res.status(500).send({
+    message: err.message || 'Some error occurred while reading product'
+  }));
 });
 
 // Update product attributes by id
